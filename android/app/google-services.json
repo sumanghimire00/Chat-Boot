@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "413711599036",
+    "project_id": "graphite-post-409601",
+    "storage_bucket": "graphite-post-409601.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413711599036:android:1ce28396f8ef90588797b9",
+        "android_client_info": {
+          "package_name": "com.example.testapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuONG9uguWkuGi0C69D8oRMvGa0QKp6PU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
