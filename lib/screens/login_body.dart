@@ -151,7 +151,6 @@ class _LoginBodyState extends State<LoginBody> {
                                         password: _passwordController.text
                                             .toString());
                                   } finally {
-                                    print("object");
                                     isLoading = false;
                                     setState(() {});
                                   }

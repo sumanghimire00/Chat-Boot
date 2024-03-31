@@ -24,6 +24,7 @@ class LoginController {
 
         // ignore: use_build_context_synchronously
         Navigator.pushAndRemoveUntil(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const SplashScreen(),
@@ -36,7 +37,12 @@ class LoginController {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Login successfully")));
       } on FirebaseAuthException catch (e) {
-        e.toString();
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login failed: ${e.message.toString()}"),
+          ),
+        );
       }
     }
   }

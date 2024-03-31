@@ -86,27 +86,23 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   )),
-              ListTile(
-                leading: const Text(
-                  "Theme Change",
-                  style: TextStyle(fontSize: 18),
-                ),
-                trailing: Consumer<ThemeProvider>(
-                  builder: (context, value, child) => IconButton(
-                    onPressed: () {
-                      SharedPreferences.getInstance();
+              Consumer(
+                builder: (context, value, child) => ListTile(
+                  onTap: () {
+                    SharedPreferences.getInstance();
 
-                      if (provider.themeMode == ThemeMode.light) {
-                        provider.setTheme(ThemeMode.dark);
-                      } else if (provider.themeMode == ThemeMode.dark) {
-                        provider.setTheme(ThemeMode.light);
-                      } else {
-                        provider.setTheme(ThemeMode.system);
-                      }
-                    },
-                    icon: provider.themeMode == ThemeMode.light
-                        ? const Icon(Icons.dark_mode)
-                        : const Icon(Icons.light_mode),
+                    if (provider.themeMode == ThemeMode.light) {
+                      provider.setTheme(ThemeMode.dark);
+                    } else if (provider.themeMode == ThemeMode.dark) {
+                      provider.setTheme(ThemeMode.light);
+                    } else {
+                      provider.setTheme(ThemeMode.system);
+                    }
+                  },
+                  trailing: const Icon(Icons.dark_mode),
+                  leading: const Text(
+                    "Theme Change",
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),
