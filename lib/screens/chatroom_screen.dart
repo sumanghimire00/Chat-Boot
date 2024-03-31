@@ -86,7 +86,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(git
+        appBar: AppBar(
           title: Text(widget.chatRoomName),
         ),
         body: Column(
