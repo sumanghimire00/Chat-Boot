@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
 
 class ChatRommScreen extends StatefulWidget {
@@ -85,6 +84,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.chatRoomName),
@@ -123,9 +123,15 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
             )),
             Container(
               padding: const EdgeInsets.all(8),
-              color: Colors.grey.shade200,
+              color: themeProvider.themeMode == ThemeMode.dark
+                  ? Colors.white12
+                  : Colors.grey.shade200,
               child: Row(
                 children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add_a_photo),
+                  ),
                   Expanded(
                     child: TextField(
                       controller: messageController,
