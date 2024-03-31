@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
+import 'package:testapp/screens/chatroom_screen.dart';
 import 'package:testapp/screens/profile_screen.dart';
 import 'package:testapp/screens/splash_screen.dart';
 
@@ -21,10 +22,12 @@ class _HomePageState extends State<HomePage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Map<String, dynamic>> chatList = [];
+  List<String> chatId = [];
   void getChatrooms() {
     db.collection("chatrooms").get().then((snapshotData) {
       for (var singleChatroomData in snapshotData.docs) {
         chatList.add(singleChatroomData.data());
+        chatId.add(singleChatroomData.id.toString());
       }
       setState(() {});
     });
@@ -99,7 +102,9 @@ class _HomePageState extends State<HomePage> {
                       provider.setTheme(ThemeMode.system);
                     }
                   },
-                  trailing: const Icon(Icons.dark_mode),
+                  trailing: provider.themeMode == ThemeMode.light
+                      ? const Icon(Icons.dark_mode)
+                      : const Icon(Icons.light_mode),
                   leading: const Text(
                     "Theme Change",
                     style: TextStyle(fontSize: 18),
@@ -149,6 +154,14 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (BuildContext context, int index) {
             String chatroomName = chatList[index]["chatroom_name"] ?? "";
             return ListTile(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChatRommScreen(
+                    chatRoomID: chatId[index],
+                    chatRoomName: chatroomName,
+                  ),
+                ));
+              },
               title: Text(chatroomName),
               subtitle: Text(chatList[index]["desc"] ?? ""),
               leading: CircleAvatar(

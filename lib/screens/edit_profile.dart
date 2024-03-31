@@ -38,7 +38,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var editProvider = Provider.of<UserProvider>(context);
+    // var editProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
