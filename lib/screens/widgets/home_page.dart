@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
 import 'package:testapp/screens/chatroom_screen.dart';
-import 'package:testapp/screens/profile_screen.dart';
-import 'package:testapp/screens/splash_screen.dart';
+import 'package:testapp/screens/widgets/profile_screen.dart';
+import 'package:testapp/screens/widgets/splash_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
