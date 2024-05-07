@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:testapp/common/common_function.dart';
 import 'package:testapp/common/custom_textform_field.dart';
 import 'package:testapp/screens/auth_screens/login_body.dart';
 
@@ -42,6 +43,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -51,26 +54,30 @@ class _ForgotScreenState extends State<ForgotScreen> {
           "Forgot Password",
         ),
       ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        CustomTextField(
-          controller: emailController,
-          hintText: "Email",
-          prefixIcon: Icons.email,
+      body: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: width * 0.03,
+          vertical: height * 0.02,
         ),
-        const SizedBox(
-          height: 20,
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          CustomTextField(
+            controller: emailController,
+            hintText: "Email",
+            prefixIcon: Icons.email,
           ),
-          onPressed: () {
-            forgotEmail(emailController.text.toString());
-          },
-          child: const Text("Forgot"),
-        )
-      ]),
+          CommonFunction.blanckSpace(height * 0.02, width),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              forgotEmail(emailController.text.toString());
+            },
+            child: const Text("Forgot"),
+          )
+        ]),
+      ),
     );
   }
 }

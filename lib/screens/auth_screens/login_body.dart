@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:testapp/common/common_function.dart';
 import 'package:testapp/common/custom_textform_field.dart';
 import 'package:testapp/controller/login_controller.dart';
 import 'package:testapp/provider/theme_provider.dart';
@@ -24,6 +25,8 @@ class _LoginBodyState extends State<LoginBody> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ThemeProvider>(context);
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,17 +68,13 @@ class _LoginBodyState extends State<LoginBody> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                CommonFunction.blanckSpace(height * 0.02, width),
                 SizedBox(
                   width: 150,
                   height: 150,
                   child: Image.asset("assets/images/icon.png"),
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                CommonFunction.blanckSpace(height * 0.03, width),
                 FormBuilder(
                   key: _formKey,
                   child: Column(
@@ -110,7 +109,7 @@ class _LoginBodyState extends State<LoginBody> {
                         prefixIcon: Icons.lock,
                         type: TextfieldType.Password,
                       ),
-                      const SizedBox(height: 10),
+                      CommonFunction.blanckSpace(height * 0.01, width),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -172,9 +171,7 @@ class _LoginBodyState extends State<LoginBody> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      CommonFunction.blanckSpace(height * 0.02, width),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

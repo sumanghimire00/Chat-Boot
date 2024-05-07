@@ -39,12 +39,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Scaffold(
       body: Center(
         child: SizedBox(
-          height: 100,
-          width: 100,
-          child: Image(image: AssetImage("assets/images/icon.png")),
+          height: height * 0.3,
+          width: width * 0.3,
+          child: const Image(image: AssetImage("assets/images/icon.png")),
         ),
       ),
     );

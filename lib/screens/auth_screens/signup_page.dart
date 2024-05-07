@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:testapp/common/common_function.dart';
 import 'package:testapp/common/custom_textform_field.dart';
 import 'package:testapp/controller/signup_controller.dart';
 
@@ -23,6 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text("SIGNUP SCREEN"),
@@ -31,8 +34,10 @@ class _SignUpPageState extends State<SignUpPage> {
         foregroundColor: Colors.white,
       ),
       body: Container(
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        height: height,
+        width: width,
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.03, vertical: height * 0.02),
         child: FormBuilder(
           key: _formKey,
           child: SingleChildScrollView(
@@ -44,9 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 100,
                   child: Image.asset("assets/images/icon.png"),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                CommonFunction.blanckSpace(height * 0.035, width),
                 CustomTextField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
