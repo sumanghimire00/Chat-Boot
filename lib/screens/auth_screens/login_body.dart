@@ -59,7 +59,7 @@ class _LoginBodyState extends State<LoginBody> {
             child: Column(
               children: [
                 const Text(
-                  "Welcome To Chatboot Login",
+                  "WELCOME TO CHATAPP",
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,

@@ -7,6 +7,7 @@ import 'package:testapp/screens/widgets/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyAuONG9uguWkuGi0C69D8oRMvGa0QKp6PU",
@@ -15,6 +16,7 @@ void main() async {
       projectId: "graphite-post-409601",
     ),
   );
+
   runApp(const MyApp());
 }
 

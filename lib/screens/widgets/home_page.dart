@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
-import 'package:testapp/screens/chatroom_screen.dart';
+import 'package:testapp/screens/chat_screen/chatroom_screen.dart';
 import 'package:testapp/screens/widgets/profile_screen.dart';
 import 'package:testapp/screens/widgets/splash_screen.dart';
 
