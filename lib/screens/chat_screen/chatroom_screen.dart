@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/provider/theme_provider.dart';
@@ -56,10 +57,19 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
                 .orderBy("timestamp", descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Text("Some Error occured!!");
-              }
               var allMessages = snapshot.data?.docs ?? [];
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Text(
+                  "Some error has occured !",
+                );
+              } else if (allMessages.isEmpty) {
+                return const Text("No message appeared here!");
+              }
+
               return ListView.builder(
                 itemCount: allMessages.length,
                 reverse: true,

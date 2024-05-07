@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/provider/user_provider.dart';
-import 'package:testapp/screens/home_page.dart';
-import 'package:testapp/screens/login_body.dart';
+import 'package:testapp/screens/auth_screens/login_body.dart';
+import 'package:testapp/screens/widgets/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,6 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ));
       }
     });
+    super.initState();
   }
 
   @override

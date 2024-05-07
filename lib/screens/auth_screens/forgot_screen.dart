@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:testapp/common/custom_textform_field.dart';
-import 'package:testapp/screens/login_body.dart';
+import 'package:testapp/screens/auth_screens/login_body.dart';
 
 class ForgotScreen extends StatefulWidget {
   const ForgotScreen({super.key});
@@ -74,5 +74,3 @@ class _ForgotScreenState extends State<ForgotScreen> {
     );
   }
 }
-
-class Forgot {}
