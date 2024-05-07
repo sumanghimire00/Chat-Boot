@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
-import 'package:testapp/screens/splash_screen.dart';
+import 'package:testapp/screens/widgets/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

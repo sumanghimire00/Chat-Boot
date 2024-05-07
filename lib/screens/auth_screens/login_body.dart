@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testapp/common/custom_textform_field.dart';
 import 'package:testapp/controller/login_controller.dart';
 import 'package:testapp/provider/theme_provider.dart';
-import 'package:testapp/screens/forgot_screen.dart';
-import 'package:testapp/screens/signup_page.dart';
+import 'package:testapp/screens/auth_screens/forgot_screen.dart';
+import 'package:testapp/screens/auth_screens/signup_page.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});

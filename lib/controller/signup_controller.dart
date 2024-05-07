@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:testapp/screens/splash_screen.dart';
+import 'package:testapp/screens/widgets/splash_screen.dart';
 
 class SignUpController {
   Future<void> signUp(

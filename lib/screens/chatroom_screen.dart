@@ -39,6 +39,78 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
     }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.chatRoomName),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: StreamBuilder(
+            stream: db
+                .collection("messages")
+                .where("chatroom_id", isEqualTo: widget.chatRoomID)
+                .orderBy("timestamp", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Text("Some Error occured!!");
+              }
+              var allMessages = snapshot.data?.docs ?? [];
+              return ListView.builder(
+                itemCount: allMessages.length,
+                reverse: true,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: singleChatItem(
+                        senderName: allMessages[index]["sender_name"],
+                        message: allMessages[index]["message"],
+                        senderId: allMessages[index]["sender_id"],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          )),
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Colors.white12
+                : Colors.grey.shade200,
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.add_a_photo),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: messageController,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none, hintText: 'Type a message..'),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    sendMessage();
+                  },
+                  icon: const Icon(Icons.send),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //  Chat room Widget is herer !!!!!!!!!!!!
   Widget singleChatItem(
       {required String senderName,
       required String message,
@@ -80,76 +152,5 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
         ),
       ],
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.chatRoomName),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-                child: StreamBuilder(
-              stream: db
-                  .collection("messages")
-                  .where("chatroom_id", isEqualTo: widget.chatRoomID)
-                  .orderBy("timestamp", descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Text("Some Error occured!!");
-                }
-                var allMessages = snapshot.data?.docs ?? [];
-                return ListView.builder(
-                  itemCount: allMessages.length,
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: singleChatItem(
-                          senderName: allMessages[index]["sender_name"],
-                          message: allMessages[index]["message"],
-                          senderId: allMessages[index]["sender_id"],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            )),
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: themeProvider.themeMode == ThemeMode.dark
-                  ? Colors.white12
-                  : Colors.grey.shade200,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add_a_photo),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: messageController,
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Type a message..'),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      sendMessage();
-                    },
-                    icon: const Icon(Icons.send),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ));
   }
 }
