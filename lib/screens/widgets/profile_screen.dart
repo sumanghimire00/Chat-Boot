@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/common/common_function.dart';
 import 'package:testapp/provider/user_provider.dart';
-import 'package:testapp/screens/auth_screens/edit_profil.dart';
+import 'package:testapp/screens/widgets/edit_profil.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

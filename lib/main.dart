@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/provider/chatroom_provider.dart';
@@ -17,6 +18,7 @@ void main() async {
       projectId: "graphite-post-409601",
     ),
   );
+  FirebaseMessaging.instance;
 
   runApp(const MyApp());
 }

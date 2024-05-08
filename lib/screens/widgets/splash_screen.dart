@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:testapp/controller/notification_controller.dart';
 import 'package:testapp/provider/user_provider.dart';
 import 'package:testapp/screens/auth_screens/login_body.dart';
 import 'package:testapp/screens/widgets/home_page.dart';
@@ -14,9 +15,15 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final user = FirebaseAuth.instance.currentUser;
-
+  NotificationController notificationController = NotificationController();
   @override
   void initState() {
+    notificationController.requestNotificationPermission();
+
+    notificationController.getDeviceToken().then((value) {
+      print("Get token");
+      print(value);
+    });
     Future.delayed(const Duration(seconds: 2), () {
       if (user == null) {
         Navigator.pushReplacement(
