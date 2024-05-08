@@ -39,6 +39,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     // var editProvider = Provider.of<UserProvider>(context);
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -54,8 +56,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         title: const Text("Edit Profile"),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        margin: const EdgeInsets.all(8),
+        padding: EdgeInsets.symmetric(
+            vertical: height * 0.015, horizontal: width * 0.01),
+        margin: EdgeInsets.all(height * 0.01),
         child: Form(
           key: editProfileKey,
           child: Column(

@@ -43,14 +43,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<ThemeProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         key: scaffoldKey,
         drawer: Drawer(
           child: Column(
             children: [
               Container(
-                  height: 150,
-                  padding: const EdgeInsets.only(bottom: 10),
+                  height: height * 0.15,
+                  padding: EdgeInsets.only(bottom: height * 0.01),
                   decoration: const BoxDecoration(
                     color: Colors.red,
                   ),
@@ -83,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                         leading: CircleAvatar(
-                          radius: 30,
+                          radius: height * 0.04,
                           child: Text(userProvider.userName[0]),
                         ),
                       )
@@ -137,11 +138,13 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           centerTitle: true,
           leading: InkWell(
+            highlightColor: Colors.transparent,
+            borderRadius: BorderRadius.circular(height * 0.05),
             onTap: () {
               scaffoldKey.currentState!.openDrawer();
             },
             child: Padding(
-              padding: const EdgeInsets.all(6.0),
+              padding: EdgeInsets.all(height * 0.01),
               child: CircleAvatar(
                 child: Text(userProvider.userName[0]),
               ),

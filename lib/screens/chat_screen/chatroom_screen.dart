@@ -43,6 +43,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.chatRoomName),
@@ -75,7 +76,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
                 reverse: true,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(height * 0.01),
                     child: Container(
                       child: singleChatItem(
                         senderName: allMessages[index]["sender_name"],
@@ -89,7 +90,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
             },
           )),
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(height * 0.01),
             color: themeProvider.themeMode == ThemeMode.dark
                 ? Colors.white12
                 : Colors.grey.shade200,
@@ -125,6 +126,8 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
       {required String senderName,
       required String message,
       required String senderId}) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment:
           senderId == Provider.of<UserProvider>(context, listen: false).userId
@@ -132,7 +135,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
               : CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 6, left: 6),
+          padding: EdgeInsets.only(right: width * 0.06, left: width * 0.015),
           child: Text(
             senderName,
             style: const TextStyle(
@@ -142,13 +145,13 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(height * 0.025),
               color: senderId ==
                       Provider.of<UserProvider>(context, listen: false).userId
                   ? Colors.grey[200]
                   : Colors.blueGrey[900]),
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(height * 0.012),
             child: Text(
               message,
               style: TextStyle(

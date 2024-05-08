@@ -53,11 +53,11 @@ class _LoginBodyState extends State<LoginBody> {
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 10,
+          padding: EdgeInsets.symmetric(
+            horizontal: width * 0.02,
+            vertical: height * 0.01,
           ),
-          margin: const EdgeInsets.symmetric(horizontal: 10),
+          margin: EdgeInsets.symmetric(horizontal: width * 0.01),
           child: SingleChildScrollView(
             child: Column(
               children: [
