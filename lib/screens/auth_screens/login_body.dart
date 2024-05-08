@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:testapp/common/common_function.dart';
 import 'package:testapp/common/custom_textform_field.dart';
 import 'package:testapp/controller/login_controller.dart';
-import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/screens/auth_screens/forgot_screen.dart';
 import 'package:testapp/screens/auth_screens/signup_page.dart';
 
@@ -24,33 +22,10 @@ class _LoginBodyState extends State<LoginBody> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ThemeProvider>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Consumer<ThemeProvider>(
-            builder: (context, value, child) => IconButton(
-              onPressed: () {
-                SharedPreferences.getInstance();
-
-                if (provider.themeMode == ThemeMode.light) {
-                  provider.setTheme(ThemeMode.dark);
-                } else if (provider.themeMode == ThemeMode.dark) {
-                  provider.setTheme(ThemeMode.light);
-                } else {
-                  provider.setTheme(ThemeMode.system);
-                }
-              },
-              icon: provider.themeMode == ThemeMode.light
-                  ? const Icon(Icons.dark_mode)
-                  : const Icon(Icons.light_mode),
-            ),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(

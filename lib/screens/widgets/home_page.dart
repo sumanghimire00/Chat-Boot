@@ -151,6 +151,26 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           title: const Text("Home Page"),
+          actions: [
+            Consumer<ThemeProvider>(
+              builder: (context, value, child) => IconButton(
+                onPressed: () {
+                  SharedPreferences.getInstance();
+
+                  if (provider.themeMode == ThemeMode.light) {
+                    provider.setTheme(ThemeMode.dark);
+                  } else if (provider.themeMode == ThemeMode.dark) {
+                    provider.setTheme(ThemeMode.light);
+                  } else {
+                    provider.setTheme(ThemeMode.system);
+                  }
+                },
+                icon: provider.themeMode == ThemeMode.light
+                    ? const Icon(Icons.dark_mode)
+                    : const Icon(Icons.light_mode),
+              ),
+            ),
+          ],
         ),
         body: ListView.builder(
           itemCount: chatList.length,
