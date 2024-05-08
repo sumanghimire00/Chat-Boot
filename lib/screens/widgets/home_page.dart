@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:testapp/provider/chatroom_provider.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
 import 'package:testapp/screens/chat_screen/chatroom_screen.dart';
@@ -21,28 +22,17 @@ class _HomePageState extends State<HomePage> {
   var db = FirebaseFirestore.instance;
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<Map<String, dynamic>> chatList = [];
-  List<String> chatId = [];
-  void getChatrooms() {
-    db.collection("chatrooms").get().then((snapshotData) {
-      for (var singleChatroomData in snapshotData.docs) {
-        chatList.add(singleChatroomData.data());
-        chatId.add(singleChatroomData.id.toString());
-      }
-      setState(() {});
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    getChatrooms();
+    Provider.of<ChatRoomProvider>(context, listen: false).getChatrooms();
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ThemeProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    final chatroomProvider = Provider.of<ChatRoomProvider>(context);
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         key: scaffoldKey,
@@ -151,6 +141,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           title: const Text("Home Page"),
+          //  Theme mode change ----------------------->
           actions: [
             Consumer<ThemeProvider>(
               builder: (context, value, child) => IconButton(
@@ -172,21 +163,23 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+        //  Chat room Details
         body: ListView.builder(
-          itemCount: chatList.length,
+          itemCount: chatroomProvider.chatList.length,
           itemBuilder: (BuildContext context, int index) {
-            String chatroomName = chatList[index]["chatroom_name"] ?? "";
+            String chatroomName =
+                chatroomProvider.chatList[index]["chatroom_name"] ?? "";
             return ListTile(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => ChatRommScreen(
-                    chatRoomID: chatId[index],
+                    chatRoomID: chatroomProvider.chatId[index],
                     chatRoomName: chatroomName,
                   ),
                 ));
               },
               title: Text(chatroomName),
-              subtitle: Text(chatList[index]["desc"] ?? ""),
+              subtitle: Text(chatroomProvider.chatList[index]["desc"] ?? ""),
               leading: CircleAvatar(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,

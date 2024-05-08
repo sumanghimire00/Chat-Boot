@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:testapp/provider/chatroom_provider.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
 import 'package:testapp/screens/widgets/splash_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ChatRoomProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {

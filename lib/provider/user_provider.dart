@@ -11,11 +11,13 @@ class UserProvider with ChangeNotifier {
 
   void getUserDetails() {
     var authUser = FirebaseAuth.instance.currentUser;
-    db.collection("users").doc(authUser!.uid).get().then((snapshotData) {
-      userName = snapshotData.data()?["name"] ?? "";
-      userEmail = snapshotData.data()?["email"] ?? "";
-      userId = snapshotData.data()?["id"] ?? "";
-      notifyListeners();
-    });
+    db.collection("users").doc(authUser!.uid).get().then(
+      (snapshotData) {
+        userName = snapshotData.data()?["name"] ?? "";
+        userEmail = snapshotData.data()?["email"] ?? "";
+        userId = snapshotData.data()?["id"] ?? "";
+        notifyListeners();
+      },
+    );
   }
 }
