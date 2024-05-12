@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testapp/provider/chatroom_provider.dart';
@@ -171,12 +172,15 @@ class _HomePageState extends State<HomePage> {
                 chatroomProvider.chatList[index]["chatroom_name"] ?? "";
             return ListTile(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ChatRommScreen(
-                    chatRoomID: chatroomProvider.chatId[index],
-                    chatRoomName: chatroomName,
+                Navigator.of(context).push(
+                  PageTransition(
+                    child: ChatRommScreen(
+                      chatRoomID: chatroomProvider.chatId[index],
+                      chatRoomName: chatroomName,
+                    ),
+                    type: PageTransitionType.fade,
                   ),
-                ));
+                );
               },
               title: Text(chatroomName),
               subtitle: Text(chatroomProvider.chatList[index]["desc"] ?? ""),
