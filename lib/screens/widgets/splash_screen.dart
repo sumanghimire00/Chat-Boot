@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/controller/notification_controller.dart';
 import 'package:testapp/provider/user_provider.dart';
@@ -18,26 +19,27 @@ class _SplashScreenState extends State<SplashScreen> {
   NotificationController notificationController = NotificationController();
   @override
   void initState() {
-    notificationController.requestNotificationPermission();
+    // notificationController.requestNotificationPermission();
 
-    notificationController.getDeviceToken().then((value) {
-      print("Get token");
-      print(value);
-    });
+    // notificationController.getDeviceToken().then((value) {
+    //   print("Get token");
+    //   print(value);
+    // });
     Future.delayed(const Duration(seconds: 2), () {
       if (user == null) {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginBody(),
-            ));
+          context,
+          PageTransition(
+              child: const LoginBody(), type: PageTransitionType.fade),
+        );
       } else {
         Provider.of<UserProvider>(context, listen: false).getUserDetails();
 
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
+            PageTransition(
+              child: const HomePage(),
+              type: PageTransitionType.fade,
             ));
       }
     });

@@ -15,11 +15,11 @@ class NotificationController {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print("User granted Permission");
+      // print("User granted Permission");
     } else if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print("User granted permission");
+      // print("User granted permission");
     } else {
-      print("User denied permission");
+      // print("User denied permission");
     }
   }
 
