@@ -150,7 +150,7 @@ class _LoginBodyState extends State<LoginBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have login email/passwor?"),
+                          const Text("Don't have login email/password?"),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
