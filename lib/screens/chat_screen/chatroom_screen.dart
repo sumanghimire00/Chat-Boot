@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
@@ -20,8 +23,8 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
   TextEditingController messageController = TextEditingController();
   var db = FirebaseFirestore.instance;
 
-  Future<void> sendMessage() async {
-    if (messageController.text.isEmpty) {
+  Future<void> sendMessage({String? imageUrl}) async {
+    if (messageController.text.isEmpty && imageUrl == null) {
       return;
     }
 
@@ -32,12 +35,68 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
       "chatroom_id": widget.chatRoomID,
       "timestamp": FieldValue.serverTimestamp(),
     };
-    messageController.text = "";
+
+    if (imageUrl != null) {
+      getMessage["image_url"] = imageUrl;
+    }
+
+    messageController.clear();
+
     try {
-      db.collection("messages").add(getMessage);
+      await db.collection("messages").add(getMessage);
     } catch (e) {
       e.toString();
     }
+  }
+
+  Future<void> pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      File image = File(pickedFile.path);
+      String fileName = pickedFile.name;
+      try {
+        UploadTask uploadTask = FirebaseStorage.instance
+            .ref()
+            .child('chat_images/$fileName')
+            .putFile(image);
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String imageUrl = await taskSnapshot.ref.getDownloadURL();
+        sendMessage(imageUrl: imageUrl);
+      } catch (e) {
+        e.toString();
+      }
+    }
+  }
+
+  void showImageSourceActionSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Photo Library'),
+              onTap: () {
+                Navigator.of(context).pop();
+                pickImage(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_camera),
+              title: const Text('Camera'),
+              onTap: () {
+                Navigator.of(context).pop();
+                pickImage(ImageSource.camera);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -51,44 +110,51 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
       body: Column(
         children: [
           Expanded(
-              child: StreamBuilder(
-            stream: db
-                .collection("messages")
-                .where("chatroom_id", isEqualTo: widget.chatRoomID)
-                .orderBy("timestamp", descending: true)
-                .snapshots(),
-            builder: (context, snapshot) {
-              var allMessages = snapshot.data?.docs ?? [];
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return const Text(
-                  "Some error has occured !",
-                );
-              } else if (allMessages.isEmpty) {
-                return const Text("No message appeared here!");
-              }
-
-              return ListView.builder(
-                itemCount: allMessages.length,
-                reverse: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(height * 0.01),
-                    child: Container(
-                      child: singleChatItem(
-                        senderName: allMessages[index]["sender_name"],
-                        message: allMessages[index]["message"],
-                        senderId: allMessages[index]["sender_id"],
-                      ),
-                    ),
+            child: StreamBuilder(
+              stream: db
+                  .collection("messages")
+                  .where("chatroom_id", isEqualTo: widget.chatRoomID)
+                  .orderBy("timestamp", descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CupertinoActivityIndicator(),
                   );
-                },
-              );
-            },
-          )),
+                } else if (snapshot.hasError) {
+                  return const Text(
+                    "Some error has occurred!",
+                  );
+                }
+
+                var allMessages = snapshot.data?.docs ?? [];
+                if (allMessages.isEmpty) {
+                  return const Text("No messages appeared here!");
+                }
+
+                return ListView.builder(
+                  itemCount: allMessages.length,
+                  reverse: true,
+                  itemBuilder: (context, index) {
+                    var messageData = allMessages[index];
+                    return Padding(
+                      padding: EdgeInsets.all(height * 0.01),
+                      child: Container(
+                        child: singleChatItem(
+                          senderName: messageData["sender_name"],
+                          message: messageData["message"],
+                          imageUrl: messageData.data().containsKey("image_url")
+                              ? messageData["image_url"]
+                              : null,
+                          senderId: messageData["sender_id"],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(height * 0.01),
             color: themeProvider.themeMode == ThemeMode.dark
@@ -97,7 +163,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
             child: Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => showImageSourceActionSheet(context),
                   icon: const Icon(Icons.add_a_photo),
                 ),
                 Expanded(
@@ -121,11 +187,12 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
     );
   }
 
-  //  Chat room Widget is herer !!!!!!!!!!!!
-  Widget singleChatItem(
-      {required String senderName,
-      required String message,
-      required String senderId}) {
+  Widget singleChatItem({
+    required String senderName,
+    required String message,
+    required String senderId,
+    String? imageUrl,
+  }) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Column(
@@ -152,14 +219,28 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
                   : Colors.blueGrey[900]),
           child: Padding(
             padding: EdgeInsets.all(height * 0.012),
-            child: Text(
-              message,
-              style: TextStyle(
-                  color: senderId ==
-                          Provider.of<UserProvider>(context, listen: false)
-                              .userId
-                      ? Colors.black
-                      : Colors.white),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (imageUrl != null)
+                  Image.network(
+                    imageUrl,
+                    height: height * 0.3,
+                    width: width * 0.6,
+                    fit: BoxFit.cover,
+                  ),
+                if (message.isNotEmpty)
+                  Text(
+                    message,
+                    style: TextStyle(
+                        color: senderId ==
+                                Provider.of<UserProvider>(context,
+                                        listen: false)
+                                    .userId
+                            ? Colors.black
+                            : Colors.white),
+                  ),
+              ],
             ),
           ),
         ),
