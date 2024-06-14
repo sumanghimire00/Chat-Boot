@@ -36,13 +36,6 @@ class _HomePageState extends State<HomePage> {
     final chatroomProvider = Provider.of<ChatRoomProvider>(context);
     final height = MediaQuery.of(context).size.height;
 
-    //  validare user name and email Id;
-    String userName = userProvider.userName.isNotEmpty
-        ? userProvider.userName
-        : 'Unknown User';
-    String userEmail = userProvider.userEmail.isNotEmpty
-        ? userProvider.userEmail
-        : "Unknown email";
     return Scaffold(
         key: scaffoldKey,
         drawer: Drawer(
@@ -67,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         subtitle: Text(
-                          userEmail,
+                          userProvider.userEmail,
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
@@ -84,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         leading: CircleAvatar(
                           radius: height * 0.04,
-                          child: Text(userName),
+                          child: Text(userProvider.userName[0]),
                         ),
                       )
                     ],
