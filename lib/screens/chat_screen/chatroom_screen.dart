@@ -67,7 +67,7 @@ class _ChatRommScreenState extends State<ChatRommScreen> {
       } catch (e) {
         e.toString();
       }
-    }
+    } else {}
   }
 
   void showImageSourceActionSheet(BuildContext context) {
