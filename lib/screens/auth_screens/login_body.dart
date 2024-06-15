@@ -84,6 +84,19 @@ class _LoginBodyState extends State<LoginBody> {
                         prefixIcon: Icons.lock,
                         type: TextfieldType.Password,
                       ),
+                      CustomTextField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Password cannot be empty";
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: _passwordController,
+                        hintText: "Password",
+                        prefixIcon: Icons.lock,
+                        type: TextfieldType.Text,
+                      ),
                       CommonFunction.blanckSpace(height * 0.01, width),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
