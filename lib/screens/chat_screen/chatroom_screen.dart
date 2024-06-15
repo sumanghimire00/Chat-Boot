@@ -8,11 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:testapp/provider/theme_provider.dart';
 import 'package:testapp/provider/user_provider.dart';
 
-//  working some chatroom branch
 class ChatRommScreen extends StatefulWidget {
   final String chatRoomName;
   final String chatRoomID;
-//  working on new Branch
   const ChatRommScreen(
       {required this.chatRoomName, required this.chatRoomID, super.key});
 
